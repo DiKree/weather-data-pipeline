@@ -67,8 +67,8 @@ def main_process():
     
     # Step 2: Load data into DataFrame
     try:
-        df = pd.read_csv("C:/Users/Диана/Desktop/weather_data.csv")
-        df = df.append(weather_data, ignore_index=True)
+        df = pd.read_csv("C:/Users/Диана/Desktop/ljvfir/weather_data.csv")
+        df = pd.concat([df, pd.DataFrame([weather_data])], ignore_index=True)
     except FileNotFoundError:
         df = pd.DataFrame([weather_data])
 
@@ -76,10 +76,10 @@ def main_process():
     df = preprocess_data(df)
 
     # Step 4: Save processed data to CSV
-    df.to_csv("C:/Users/Диана/Desktop/weather_data.csv", index=False)
+    df.to_csv("C:/Users/Диана/Desktop/ljvfir/weather_data.csv", index=False)
 
     # Step 5: Save to database
-    save_to_database(df, "C:/Users/Диана/Desktop/weather_data.db", "weather")
+    save_to_database(df, "C:/Users/Диана/Desktop/ljvfir/weather_data.db", "weather")
 
     # Step 6: Analyze data
     analyze_data(df)
@@ -89,5 +89,10 @@ main_process()
 
 # Uncomment for automated scheduling
 # schedule.every().day.at("09:00").do(main_process)
+
+# Uncomment below to keep the scheduler running
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 print("Script executed once. Exiting.")
